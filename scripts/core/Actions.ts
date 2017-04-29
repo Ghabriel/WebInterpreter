@@ -1,5 +1,6 @@
 // Copyright 2017 Ghabriel Nunes <ghabriel.nunes@gmail.com>
 
+import {Errors} from "./Errors"
 import {Program} from "./Program"
 
 export interface Node {
@@ -7,7 +8,7 @@ export interface Node {
 }
 
 function trace(program: Program, name: string, value: any) {
-	program.log("\t" + name + ": " + value + "\n");
+	Program.log("\t" + name + ": " + value + "\n");
 	// console.log(name, value);
 }
 
@@ -34,6 +35,8 @@ let operators = {
 	">=": function(lhs, rhs) { return lhs >= rhs; },
 };
 
+const ERROR = undefined;
+
 export namespace Actions {
 	export function primitive(value: any): Node {
 		return {
@@ -46,10 +49,18 @@ export namespace Actions {
 	export function id(name: string): Node {
 		return {
 			execute: function(program: Program) {
-				let value = 42;
+				let scope = program.scope();
+				let data = scope.lookup(name);
+				if (data === null) {
+					Errors.undeclaredVariable(name);
+					program.pushValue(ERROR);
+					return;
+				}
+
+				let value = data.value;
 				program.pushValue(value);
 
-				program.log("variable retrieval:\n");
+				Program.log("variable retrieval:\n");
 				trace(program, "name", name);
 				trace(program, "value", value);
 			}
@@ -61,8 +72,11 @@ export namespace Actions {
 			execute: function(program: Program) {
 				rhs.execute(program);
 				let value = program.popValue();
+				program.scope().insert(name, {
+					value: value
+				});
 
-				program.log("assignment:\n");
+				Program.log("assignment:\n");
 				trace(program, "variable", name);
 				trace(program, "value", value);
 				trace(program, "assignType", assignType);
@@ -76,11 +90,15 @@ export namespace Actions {
 				execute(params, program);
 				let list = [];
 				for (let i = 0; i < params.length; i++) {
-					list.push(program.popValue());
+					let param = program.popValue();
+					if (param === ERROR) {
+						return;
+					}
+					list.push(param);
 				}
 				list.reverse();
 
-				program.log("call:\n");
+				Program.log("call:\n");
 				trace(program, "name", name);
 				trace(program, "#params", params.length);
 				trace(program, "params", "[" + list.join(",") + "]");
@@ -99,7 +117,7 @@ export namespace Actions {
 					execute(otherwise, program);
 				}
 
-				program.log("if:\n");
+				Program.log("if:\n");
 				trace(program, "condition", condition);
 				trace(program, "then", then);
 				trace(program, "otherwise", otherwise);
@@ -122,7 +140,7 @@ export namespace Actions {
 				let result = operators[op](lhsValue, rhsValue);
 				program.pushValue(result);
 
-				program.log("operator:\n");
+				Program.log("operator:\n");
 				trace(program, "lhs", lhsValue);
 				trace(program, "rhs", rhsValue);
 				trace(program, "operation", op);

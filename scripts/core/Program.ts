@@ -1,9 +1,8 @@
 // Copyright 2017 Ghabriel Nunes <ghabriel.nunes@gmail.com>
 
+import {Logger} from "./Definitions"
 import {Node} from "./Actions"
 import {SymbolTable} from "./SymbolTable"
-
-type Logger = (text: string) => void;
 
 export class Program {
 	public finish(): void {
@@ -22,6 +21,10 @@ export class Program {
 		this.symbolTables.pop();
 	}
 
+	public scope(): SymbolTable {
+		return this.symbolTables[this.symbolTables.length - 1];
+	}
+
 	public pushValue(value: any): void {
 		this.valueStack.push(value);
 	}
@@ -30,7 +33,7 @@ export class Program {
 		return this.valueStack.pop();
 	}
 
-	public log(text: string): void {
+	public static log(text: string): void {
 		if (Program.logger) {
 			Program.logger(text);
 		}

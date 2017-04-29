@@ -33,7 +33,7 @@ export class UI {
 				self.history.push(input.value);
 				input.value = "";
 			} catch (e) {
-				output.innerHTML = e.message;
+				output.innerHTML += e.message + "\n";
 			}
 		})
 

@@ -16,8 +16,16 @@
 %%
 
 program
-    : exec_command_seq EOF  { console.log("Program finished."); }
-    |
+    : setup exec_command_seq finish EOF  { console.log("Program finished."); }
+    | EOF
+    ;
+
+setup
+    : { program.openScope(); }
+    ;
+
+finish
+    : { program.closeScope(); }
     ;
 
 exec_command_seq

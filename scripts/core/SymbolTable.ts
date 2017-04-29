@@ -1,8 +1,6 @@
 // Copyright 2017 Ghabriel Nunes <ghabriel.nunes@gmail.com>
 
-interface Symbol {
-
-}
+import {Symbol} from "./Definitions"
 
 export class SymbolTable {
 	public insert(name: string, data: Symbol): void {
