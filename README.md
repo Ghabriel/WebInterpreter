@@ -22,6 +22,7 @@ A basic example of how to use this system is implemented.
 
 ## Dependencies
 * [jison](http://zaa.ch/jison/docs/)
+* [tsc](https://www.typescriptlang.org/)
 
 jQuery and requireJS are also dependencies, but `make` automatically downloads them.
 

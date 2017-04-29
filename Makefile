@@ -1,28 +1,33 @@
 # Copyright 2017 Ghabriel Nunes <ghabriel.nunes@gmail.com>
 
+# Folders
 CSS          :=css
 JS           :=js
 LIB          :=lib
 TS           :=scripts
 GRAMMAR      :=grammar
+
+# Filenames
 INDEX        :=index.html
 LIBSFILE     :=libs.txt
 JSBASE       :=base.js
 JSCOMPRESSED :=main.js
-GRAMMARNAME  :=grammar
+SCANNER      :=scanner.jisonlex
+PARSER       :=parser.jison
+GRAMMARNAME  :=grammar.js
 COMPRESS     :=1
 
+# Misc.
 ORIGNAMES    :=$(shell cat $(LIBSFILE) | sed "s/^\([^:]\+\): \(.*\)/\1/")
 LIBNAMES     :=$(patsubst %, $(LIB)/%, $(ORIGNAMES))
 TSFILES      :=$(wildcard $(TS)/*.ts)
-
-GJS          :=$(GRAMMAR)/$(GRAMMARNAME).js
+GJS          :=$(GRAMMAR)/$(GRAMMARNAME)
 
 .PHONY: all dirs libs disable_compress raw simple
 
 all: dirs libs
-	@echo "[ grammar ] $(GRAMMAR)/$(GRAMMARNAME).js"
-	@jison $(GRAMMAR)/parser.jison $(GRAMMAR)/scanner.jisonlex -o $(GRAMMAR)/$(GRAMMARNAME).js
+	@echo "[ grammar ] $(GJS)"
+	@jison $(GRAMMAR)/$(PARSER) $(GRAMMAR)/$(SCANNER) -o $(GJS)
 
 	@echo "[.ts ⟶ .js]"
 ifneq ("$(TSFILES)", "")
