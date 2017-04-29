@@ -1017,10 +1017,40 @@ return new Parser;
 })();
 })(Grammar = exports.Grammar || (exports.Grammar = {}));
 });
-define("main", ["require", "exports", "Grammar", "UI"], function (require, exports, Grammar_1, UI_1) {
+define("Cache", ["require", "exports"], function (require, exports) {
+    "use strict";
+    var Cache = (function () {
+        function Cache() {
+        }
+        Cache.setup = function () {
+            if ("serviceWorker" in navigator) {
+                navigator["serviceWorker"].register("cache.js", { scope: "./" }).then(function (reg) {
+                    if (reg.installing) {
+                        console.log("Service worker installing");
+                    }
+                    else if (reg.waiting) {
+                        console.log("Service worker installed");
+                    }
+                    else if (reg.active) {
+                        console.log("Service worker active");
+                    }
+                }).catch(function (error) {
+                    console.log("Cache service failed (" + error + ")");
+                });
+            }
+            else {
+                console.log("Cache service failed (navigator.serviceWorker is not defined)");
+            }
+        };
+        return Cache;
+    }());
+    exports.Cache = Cache;
+});
+define("main", ["require", "exports", "Cache", "Grammar", "UI"], function (require, exports, Cache_1, Grammar_1, UI_1) {
     "use strict";
     $(document).ready(function () {
         var ui = new UI_1.UI("#command", "#console", "#submit", Grammar_1.Grammar.grammar);
+        Cache_1.Cache.setup();
     });
 });
 
