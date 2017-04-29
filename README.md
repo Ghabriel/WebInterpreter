@@ -19,3 +19,13 @@ A basic example of how to use this system is implemented.
 * Dot (.): equivalent to the up arrow (better usability for mobile devices)
 * Esc: clears the input
 * Enter: submits the input
+
+## Dependencies
+* [jison](http://zaa.ch/jison/docs/)
+
+jQuery and requireJS are also dependencies, but `make` automatically downloads them.
+
+## Usage
+1. Make any changes you want.
+2. `make`
+3. Open/refresh `index.html` in your browser.
