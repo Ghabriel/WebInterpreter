@@ -16,5 +16,6 @@ A basic example of how to use this system is implemented.
 
 ## User interface features
 * Up/down arrows: history navigation
+* Dot (.): equivalent to the up arrow (better usability for mobile devices)
 * Esc: clears the input
 * Enter: submits the input

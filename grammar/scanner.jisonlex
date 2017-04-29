@@ -24,13 +24,6 @@ end_of_command ";"
 "<="                   return 'T_COMPARISON'
 ">="                   return 'T_COMPARISON'
 
-"+"                    return '+'
-"-"                    return '-'
-"*"                    return '*'
-"/"                    return '/'
-"**"                   return '**'
-"%"                    return '%'
-
 "+="                   return 'T_ASSIGN'
 "-="                   return 'T_ASSIGN'
 "*="                   return 'T_ASSIGN'
@@ -38,6 +31,13 @@ end_of_command ";"
 "**="                  return 'T_ASSIGN'
 "%="                   return 'T_ASSIGN'
 "="                    return 'T_ASSIGN'
+
+"+"                    return '+'
+"-"                    return '-'
+"*"                    return '*'
+"/"                    return '/'
+"**"                   return '**'
+"%"                    return '%'
 
 "("                    return '('
 ")"                    return ')'
