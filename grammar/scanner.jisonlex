@@ -14,7 +14,7 @@ end_of_command ";"
 "else"                 return 'T_ELSE'
 "for"                  return 'T_FOR'
 "while"                return 'T_WHILE'
-"ret"                  return 'T_RETURN'
+"return"               return 'T_RETURN'
 "function"             return 'T_FUNCTION'
 
 "=="                   return 'T_COMPARISON'
