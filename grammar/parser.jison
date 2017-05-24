@@ -16,16 +16,7 @@
 %%
 
 program
-    : setup exec_command_seq finish EOF  { console.log("Program finished."); }
-    | EOF
-    ;
-
-setup
-    : { program.openScope(); }
-    ;
-
-finish
-    : { program.closeScope(); }
+    : exec_command_seq
     ;
 
 exec_command_seq
@@ -69,6 +60,7 @@ assign
 
 fn_call
     : identifier "(" rvalue_list ")" { $$ = Actions.call($1, $3); }
+    | identifier "(" ")" { $$ = Actions.call($1, []); }
     ;
 
 rvalue_list

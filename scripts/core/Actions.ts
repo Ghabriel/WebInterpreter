@@ -2,6 +2,7 @@
 
 import {Errors} from "./Errors"
 import {Program} from "./Program"
+import * as fn from "./Functions"
 
 export interface Node {
 	execute: (program: Program) => void;
@@ -49,8 +50,7 @@ export namespace Actions {
 	export function id(name: string): Node {
 		return {
 			execute: function(program: Program) {
-				let scope = program.scope();
-				let data = scope.lookup(name);
+				let data = program.lookup(name);
 				if (data === null) {
 					Errors.undeclaredVariable(name);
 					program.pushValue(ERROR);
@@ -98,10 +98,14 @@ export namespace Actions {
 				}
 				list.reverse();
 
-				Program.log("call:\n");
-				trace(program, "name", name);
-				trace(program, "#params", params.length);
-				trace(program, "params", "[" + list.join(",") + "]");
+				if (fn.hasOwnProperty(name)) {
+					fn[name].apply(null, list);
+				} else {
+					Program.log("call:\n");
+					trace(program, "name", name);
+					trace(program, "#params", params.length);
+					trace(program, "params", "[" + list.join(",") + "]");
+				}
 			}
 		};
 	}

@@ -45,8 +45,12 @@ export class UI {
 					self.historyPointer = self.HISTORY_END;
 					this.value = "";
 					break;
-				case 38: // up arrow
 				case 190: // dot
+					if (this.value != "") {
+						break;
+					}
+					// intentional fall-through
+				case 38: // up arrow
 					if (self.historyPointer == self.HISTORY_END) {
 						cachedInput = input.value;
 					}

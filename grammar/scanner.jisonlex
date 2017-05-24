@@ -53,5 +53,5 @@ end_of_command ";"
 {name}                 return 'T_ID'
 {end_of_command}       return 'T_EOC'
 
-<<EOF>>                return 'EOF'
+<<EOF>>                
 .                      return 'INVALID'
